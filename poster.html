@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Queue of Legends · 数据结构课程学术海报</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', 'Segoe UI', 'Arial', sans-serif;
+            background: #e8e8e8;
+            min-height: 100vh;
+            padding: 20px 15px;
+        }
+
+        .poster {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+        }
+
+        /* 顶部标题区 */
+        .header {
+            background: linear-gradient(135deg, #1a3a5c 0%, #2d6a9f 100%);
+            padding: 20px 30px;
+            border-bottom: 4px solid #c0392b;
+        }
+
+        .header h1 {
+            font-size: 2.8em;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+        }
+
+        .header .subtitle {
+            font-size: 1.1em;
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 10px;
+        }
+
+        .author-info {
+            display: flex;
+            gap: 30px;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1em;
+        }
+
+        /* 三栏主体 - 修改宽度比例 */
+        .content {
+            display: grid;
+            grid-template-columns: 1.3fr 0.9fr 1.3fr;  /* 左右宽，中间窄 */
+            gap: 0;
+            background: #ffffff;
+        }
+
+        .column {
+            padding: 18px 15px;
+            border-right: 1px solid #d0d0d0;
+            background: #ffffff;
+        }
+
+        .column:last-child {
+            border-right: none;
+        }
+
+        .section-title {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #c0392b;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 3px solid #2d6a9f;
+        }
+
+        .intro-text {
+            color: #2c2c2c;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+        }
+
+        .intro-text .highlight {
+            color: #c0392b;
+            font-weight: 600;
+        }
+
+        .intro-text .blue-highlight {
+            color: #1a3a5c;
+            font-weight: 600;
+        }
+
+        /* 数据卡片 */
+        .stat-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin: 12px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #d0d0d0;
+        }
+
+        .stat-card .stat-value {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #1a3a5c;
+        }
+
+        .stat-card .stat-label {
+            font-size: 0.75em;
+            color: #5a5a5a;
+            margin-top: 3px;
+        }
+
+        .stat-card.highlight {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeeba 100%);
+            border-color: #f39c12;
+        }
+
+        .stat-card.highlight .stat-value {
+            color: #c0392b;
+        }
+
+        /* 要点列表 */
+        .bullet-list {
+            list-style: none;
+            margin-top: 10px;
+        }
+
+        .bullet-list li {
+            padding: 6px 0 6px 22px;
+            position: relative;
+            color: #3a3a3a;
+            line-height: 1.5;
+            font-size: 0.85em;
+            border-bottom: 1px solid #e8e8e8;
+        }
+
+        .bullet-list li::before {
+            content: "●";
+            position: absolute;
+            left: 5px;
+            color: #2d6a9f;
+            font-size: 0.9em;
+        }
+
+        /* 英雄标签 */
+        .hero-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin: 10px 0;
+        }
+
+        .hero-tag {
+            background: #e8f4fd;
+            color: #1a3a5c;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 500;
+            border: 1px solid #2d6a9f;
+        }
+
+        .hero-tag.blue {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+
+        .hero-tag.red {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+
+        /* 架构图 - 缩小字体 */
+        .arch-box {
+            background: #f5f8fc;
+            border-radius: 8px;
+            padding: 10px;
+            margin: 12px 0;
+            border-left: 4px solid #2d6a9f;
+        }
+
+        .arch-box pre {
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.65em;
+            color: #2c2c2c;
+            margin: 0;
+            white-space: pre-wrap;
+        }
+
+        /* 图表容器 */
+        .chart-container {
+            background: #fafafa;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 12px 0;
+            border: 1px solid #d0d0d0;
+        }
+
+        .chart-title {
+            font-weight: 600;
+            color: #1a3a5c;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+        }
+
+        /* 柱状图 */
+        .bar-chart {
+            padding: 3px 0;
+        }
+
+        .bar-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .bar-label {
+            width: 90px;
+            font-size: 0.8em;
+            color: #4a4a4a;
+        }
+
+        .bar-bg {
+            flex: 1;
+            height: 24px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 8px;
+            color: #ffffff;
+            font-size: 0.8em;
+            font-weight: 600;
+            transition: width 0.5s ease;
+        }
+
+        .bar-fill.ll { background: linear-gradient(90deg, #7f8c8d, #95a5a6); }
+        .bar-fill.pq { background: linear-gradient(90deg, #27ae60, #2ecc71); }
+        .bar-fill.bst { background: linear-gradient(90deg, #8e44ad, #9b59b6); }
+
+        /* 环形缓冲区 */
+        .ring-buffer-viz {
+            display: flex;
+            justify-content: center;
+            gap: 4px;
+            margin: 10px 0;
+        }
+
+        .ring-slot {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6em;
+            font-weight: bold;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .ring-slot.active {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            box-shadow: 0 2px 6px rgba(46, 204, 113, 0.4);
+        }
+
+        .ring-slot.inactive {
+            background: #e0e0e0;
+            color: #999;
+        }
+
+        /* GC对比 */
+        .gc-stats {
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .gc-stat {
+            flex: 1;
+        }
+
+        .gc-number {
+            font-size: 1.6em;
+            font-weight: 700;
+            color: #c0392b;
+        }
+
+        .gc-label {
+            font-size: 0.7em;
+            color: #5a5a5a;
+        }
+
+        /* 时序图 */
+        .timeline-vivid {
+            margin: 10px 0;
+        }
+
+        .timeline-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .timeline-hero {
+            width: 65px;
+            font-weight: 600;
+            color: #1a3a5c;
+            font-size: 0.75em;
+        }
+
+        .timeline-bar-container {
+            flex: 1;
+            height: 22px;
+            background: #e8e8e8;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .timeline-segment {
+            position: absolute;
+            height: 22px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6em;
+            color: white;
+            font-weight: bold;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            padding: 0 3px;
+        }
+
+        .timeline-segment.normal { background: linear-gradient(90deg, #27ae60, #2ecc71); }
+        .timeline-segment.interrupted { background: linear-gradient(90deg, #e74c3c, #c0392b); }
+        .timeline-segment.control { background: linear-gradient(90deg, #f39c12, #e67e22); }
+        .timeline-segment.cleanse { background: linear-gradient(90deg, #9b59b6, #8e44ad); }
+
+        .timeline-marker {
+            display: flex;
+            margin-top: 4px;
+            padding-left: 65px;
+        }
+
+        .timeline-marker span {
+            flex: 1;
+            color: #888;
+            font-size: 0.55em;
+        }
+
+        /* 优先级金字塔 - 修正为正金字塔 */
+        .priority-pyramid {
+            margin: 12px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .pyramid-level {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 8px;
+            margin-bottom: 3px;
+            border-radius: 4px;
+            color: white;
+            font-weight: 600;
+            font-size: 0.7em;
+            text-align: center;
+            line-height: 1.3;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* 正金字塔：优先级越高越窄 */
+        .pyramid-level.level-100 { background: #e74c3c; width: 35%; }
+        .pyramid-level.level-90 { background: #f39c12; width: 50%; }
+        .pyramid-level.level-20 { background: #3498db; width: 65%; }
+        .pyramid-level.level-15 { background: #2ecc71; width: 80%; }
+        .pyramid-level.level-10 { background: #9b59b6; width: 90%; }
+        .pyramid-level.level-0 { background: #95a5a6; width: 100%; }
+
+        /* 结论框 */
+        .conclusion-box {
+            background: #f0f7ff;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 12px 0;
+            border: 1px solid #2d6a9f;
+        }
+
+        .conclusion-box p {
+            color: #1a3a5c;
+            line-height: 1.5;
+            margin-bottom: 6px;
+            font-size: 0.8em;
+        }
+
+        /* 数据结构表格 */
+        .ds-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.75em;
+            margin: 8px 0;
+        }
+
+        .ds-table th {
+            background: #1a3a5c;
+            color: white;
+            padding: 6px 4px;
+            text-align: center;
+        }
+
+        .ds-table td {
+            padding: 5px 4px;
+            text-align: center;
+            border: 1px solid #d0d0d0;
+        }
+
+        /* 底部 */
+        .footer {
+            background: #1a3a5c;
+            padding: 12px 30px;
+            text-align: center;
+            color: #ffffff;
+            font-size: 0.85em;
+            border-top: 2px solid #c0392b;
+        }
+
+        /* 数据状态标签 */
+        .data-source-badge {
+            display: inline-block;
+            background: #28a745;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 0.65em;
+            margin-left: 8px;
+        }
+
+        .data-source-badge.simulated {
+            background: #f39c12;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* 响应式 */
+        @media (max-width: 1000px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+            .column {
+                border-right: none;
+                border-bottom: 1px solid #d0d0d0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="poster">
+        <!-- 顶部标题区 -->
+        <div class="header">
+            <h1>⚡ Queue of Legends ⚡</h1>
+            <div class="subtitle">英雄联盟技能施法系统的数据结构分析与性能模拟</div>
+            <div class="author-info">
+                <span>📧 数据结构课程大作业</span>
+                <span>👤 姓名：_______________</span>
+                <span>📅 学号：_______________</span>
+            </div>
+        </div>
+
+        <!-- 三栏主体 -->
+        <div class="content">
+            <!-- 第一栏：Research（较宽） -->
+            <div class="column">
+                <div class="section-title">Research</div>
+
+                <div class="intro-text">
+                    MOBA类游戏中，每秒可能发生数十次技能施放请求。
+                    这些请求具有<span class="highlight">不同的优先级</span>——控制技能需要打断引导技能，
+                    解控技能需要立即响应——而游戏引擎必须在<span class="blue-highlight">16.6ms帧时间</span>内完成调度。
+                </div>
+
+                <div class="intro-text" style="font-weight: 600; color: #1a3a5c;">
+                    🔍 研究问题：怎样的数据结构选型，能高效调度不同优先级的技能请求？
+                </div>
+
+                <ul class="bullet-list">
+                    <li><strong>量化验证</strong> — 优先队列（堆）相较于链表的性能优势</li>
+                    <li><strong>模拟分析</strong> — 环形缓冲区对GC事件的抑制效果</li>
+                    <li><strong>构建映射</strong> — 游戏机制→数据结构概念</li>
+                    <li><strong>三结构对比</strong> — 链表 vs 优先队列 vs BST</li>
+                    <li><strong>控制链验证</strong> — 引导(10) &lt; 控制(90) &lt; 解控(100)</li>
+                </ul>
+
+                <!-- 实时数据卡片 -->
+                <div class="stat-cards">
+                    <div class="stat-card">
+                        <div class="stat-value" id="stat-push">13</div>
+                        <div class="stat-label">技能施放</div>
+                    </div>
+                    <div class="stat-card highlight">
+                        <div class="stat-value" id="stat-interrupt">1</div>
+                        <div class="stat-label">打断次数</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="stat-bullets">38</div>
+                        <div class="stat-label">子弹发射</div>
+                    </div>
+                    <div class="stat-card highlight">
+                        <div class="stat-value" id="stat-cleanse">1</div>
+                        <div class="stat-label">解控次数</div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 15px;">
+                    <div style="font-weight: 600; color: #1a3a5c; margin-bottom: 8px;">🎮 英雄阵容 (3v3)</div>
+                    <div class="hero-tags">
+                        <span class="hero-tag blue">🔄 卢锡安 · 环形缓冲区</span>
+                        <span class="hero-tag blue">📋 艾希 · 链表基线</span>
+                        <span class="hero-tag blue">⚡ 奥拉夫 · 优先队列</span>
+                    </div>
+                    <div class="hero-tags">
+                        <span class="hero-tag red">🎯 卡特琳娜 · 引导目标</span>
+                        <span class="hero-tag red">🔒 马尔扎哈 · 控制源</span>
+                        <span class="hero-tag red">👊 盲僧 · 高频连招</span>
+                    </div>
+                </div>
+
+                <!-- 优先级金字塔 - 修正为正金字塔 -->
+                <div style="margin-top: 15px;">
+                    <div style="font-weight: 600; color: #1a3a5c; margin-bottom: 8px;">⚡ 优先级金字塔（塔尖=最高优先级）</div>
+                    <div class="priority-pyramid">
+                        <div class="pyramid-level level-100">100 · 解控 · 奥拉夫 R</div>
+                        <div class="pyramid-level level-90">90 · 控制 · 马尔扎哈 R / 盲僧 R</div>
+                        <div class="pyramid-level level-20">20 · 瞬发 · 卡特琳娜 E</div>
+                        <div class="pyramid-level level-15">15 · 弹道 · 卢锡安 R</div>
+                        <div class="pyramid-level level-10">10 · 引导 · 卡特琳娜 R</div>
+                        <div class="pyramid-level level-0">0 · 普通 · 艾希 W</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第二栏：Methods（较窄） -->
+            <div class="column">
+                <div class="section-title">Methods</div>
+
+                <div class="intro-text">
+                    采用<span class="highlight">RTL/TB分离</span>的硬件验证思维构建模拟器，
+                    底层实现三种数据结构供对比测试。
+                </div>
+
+                <div class="arch-box">
+                    <pre>┌──────────────────────────┐
+│ Testbench:               │
+│ SimulationDriver         │
+│ • 加载JSON • 推进仿真     │
+│ • 注入激励 • 采集指标     │
+└──────────┬───────────────┘
+           ▼
+┌──────────────────────────┐
+│ RTL: SkillCastSystem     │
+│ ┌─────────┐ ┌─────────┐  │
+│ │Priority │ │RingBuf  │  │
+│ │Queue    │ │Pool     │  │
+│ └─────────┘ └─────────┘  │
+│ ┌─────────┐ ┌─────────┐  │
+│ │LinkedList│ │  BST   │  │
+│ └─────────┘ └─────────┘  │
+└──────────────────────────┘</pre>
+                </div>
+
+                <!-- 数据结构对比表 -->
+                <table class="ds-table">
+                    <tr><th>结构</th><th>操作</th><th>复杂度</th></tr>
+                    <tr><td>优先队列</td><td>push/pop</td><td style="color:#27ae60;">O(log n)</td></tr>
+                    <tr><td>环形缓冲区</td><td>acquire</td><td style="color:#27ae60;">O(1)</td></tr>
+                    <tr><td>链表</td><td>插队</td><td style="color:#e74c3c;">O(n)</td></tr>
+                    <tr><td>BST</td><td>remove</td><td style="color:#f39c12;">O(log n)</td></tr>
+                </table>
+
+                <!-- 环形缓冲区可视化 -->
+                <div class="chart-container">
+                    <div class="chart-title">🔄 环形缓冲区</div>
+                    <div class="ring-buffer-viz" id="ring-buffer-viz"></div>
+                    <div style="font-size: 0.7em; color: #5a5a5a; text-align: center;">
+                        容量60 | 活跃:<span id="ring-active">0</span> | 复用:<span id="ring-reuse">38</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第三栏：Result（较宽） -->
+            <div class="column">
+                <div class="section-title">Result</div>
+
+                <!-- 性能对比柱状图 -->
+                <div class="chart-container">
+                    <div class="chart-title">
+                        📊 平均PUSH耗时
+                        <span class="data-source-badge" id="data-source-badge">加载中</span>
+                    </div>
+                    <div class="bar-chart">
+                        <div class="bar-item">
+                            <span class="bar-label">链表</span>
+                            <div class="bar-bg">
+                                <div class="bar-fill ll" id="bar-ll" style="width: 100%;">15.7 μs</div>
+                            </div>
+                        </div>
+                        <div class="bar-item">
+                            <span class="bar-label">优先队列</span>
+                            <div class="bar-bg">
+                                <div class="bar-fill pq" id="bar-pq" style="width: 15%;">2.3 μs</div>
+                            </div>
+                        </div>
+                        <div class="bar-item">
+                            <span class="bar-label">BST</span>
+                            <div class="bar-bg">
+                                <div class="bar-fill bst" id="bar-bst" style="width: 20%;">3.1 μs</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="font-size: 0.9em; color: #27ae60; margin-top: 8px; text-align: center; font-weight: bold;">
+                        🚀 优先队列比链表快 <span id="speedup-display">6.8</span>x
+                    </div>
+                </div>
+
+                <!-- GC抑制效果 -->
+                <div class="chart-container">
+                    <div class="chart-title">🔄 GC抑制效果</div>
+                    <div class="gc-stats">
+                        <div class="gc-stat">
+                            <div class="gc-number" id="gc-ring-val">38</div>
+                            <div class="gc-label">环形缓冲区</div>
+                        </div>
+                        <div class="gc-stat">
+                            <div class="gc-number" id="gc-naive-val">38</div>
+                            <div class="gc-label">普通方式</div>
+                        </div>
+                        <div class="gc-stat">
+                            <div class="gc-number" id="gc-saved-val">0</div>
+                            <div class="gc-label">避免GC</div>
+                        </div>
+                    </div>
+                    <div style="font-size: 0.8em; color: #27ae60; text-align: center;">
+                        复用率: <span id="reuse-display">100</span>%
+                    </div>
+                </div>
+
+                <!-- 控制链时序图 -->
+                <div class="chart-container">
+                    <div class="chart-title">⏱️ 控制链时序</div>
+                    <div class="timeline-vivid" id="timeline-vivid"></div>
+                    <div style="font-size: 0.7em; color: #c0392b; margin-top: 6px; text-align: center; font-weight: bold;" id="timeline-summary">
+                        💥 4.0s 艾希R命中奥拉夫 → 7.0s 盲僧R打断卡特 → 8.0s 奥拉夫R解控
+                    </div>
+                </div>
+
+                <!-- 结论 -->
+                <div class="conclusion-box">
+                    <p><strong>📐 核心权衡</strong></p>
+                    <p>• 优先队列：O(log n) → 响应速度</p>
+                    <p>• 环形缓冲区：预分配 → 零GC</p>
+                    <p>• 没有万能结构，只有约束下的最优解</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部 -->
+        <div class="footer">
+            Queue of Legends · 用卢锡安的子弹讲环形缓冲区，用奥拉夫的诸神黄昏讲优先队列，用马尔扎哈的压制讲控制链
+        </div>
+    </div>
+
+    <script>
+        // 默认数据
+        const DEFAULT_DATA = {
+            metrics: { total_push: 13, total_interrupt: 1, total_bullet_acquire: 38, total_cleanse: 1 },
+            queue_stats: { ll_push: 15.7, pq_push: 2.3, bst_push: 3.1 },
+            pool_stats: { acquire_count: 38, naive_allocations: 38, gc_events_saved: 0, reuse_ratio: 1.0, capacity: 60, active_count: 12 }
+        };
+
+        let currentData = JSON.parse(JSON.stringify(DEFAULT_DATA));
+        let dataLoaded = false;
+
+        function updateAllVisualizations() {
+            // 统计卡片
+            document.getElementById('stat-push').textContent = currentData.metrics.total_push;
+            document.getElementById('stat-interrupt').textContent = currentData.metrics.total_interrupt;
+            document.getElementById('stat-bullets').textContent = currentData.metrics.total_bullet_acquire;
+            document.getElementById('stat-cleanse').textContent = currentData.metrics.total_cleanse;
+
+            // 柱状图
+            const llPush = currentData.queue_stats.ll_push;
+            const pqPush = currentData.queue_stats.pq_push;
+            const bstPush = currentData.queue_stats.bst_push;
+            const maxPush = Math.max(llPush, pqPush, bstPush, 1);
+
+            document.getElementById('bar-ll').style.width = Math.max((llPush / maxPush) * 100, 5) + '%';
+            document.getElementById('bar-ll').textContent = llPush.toFixed(1) + ' μs';
+            document.getElementById('bar-pq').style.width = Math.max((pqPush / maxPush) * 100, 5) + '%';
+            document.getElementById('bar-pq').textContent = pqPush.toFixed(1) + ' μs';
+            document.getElementById('bar-bst').style.width = Math.max((bstPush / maxPush) * 100, 5) + '%';
+            document.getElementById('bar-bst').textContent = bstPush.toFixed(1) + ' μs';
+            document.getElementById('speedup-display').textContent = (llPush / pqPush).toFixed(1);
+
+            // GC数据
+            const pool = currentData.pool_stats;
+            document.getElementById('gc-ring-val').textContent = pool.acquire_count;
+            document.getElementById('gc-naive-val').textContent = pool.naive_allocations;
+            document.getElementById('gc-saved-val').textContent = pool.gc_events_saved;
+            document.getElementById('reuse-display').textContent = Math.round(pool.reuse_ratio * 100);
+
+            updateRingBufferViz(pool);
+            updateTimelineViz();
+
+            const badge = document.getElementById('data-source-badge');
+            if (dataLoaded) {
+                badge.textContent = '✓ 真实数据';
+                badge.style.background = '#28a745';
+            } else {
+                badge.textContent = '示例数据';
+                badge.style.background = '#f39c12';
+            }
+        }
+
+        function updateRingBufferViz(pool) {
+            const container = document.getElementById('ring-buffer-viz');
+            const capacity = pool.capacity || 60;
+            const active = pool.active_count || 12;
+            let html = '';
+            for (let i = 0; i < Math.min(capacity, 12); i++) {
+                html += `<div class="ring-slot ${i < active ? 'active pulse' : 'inactive'}">${i}</div>`;
+            }
+            container.innerHTML = html;
+            document.getElementById('ring-active').textContent = active;
+            document.getElementById('ring-reuse').textContent = pool.acquire_count;
+        }
+
+        function updateTimelineViz() {
+            const container = document.getElementById('timeline-vivid');
+            container.innerHTML = `
+                <div class="timeline-row">
+                    <div class="timeline-hero">卢锡安</div>
+                    <div class="timeline-bar-container">
+                        <div class="timeline-segment normal" style="left: 27%; width: 23%;">圣枪洗礼(R)</div>
+                    </div>
+                </div>
+                <div class="timeline-row">
+                    <div class="timeline-hero">艾希</div>
+                    <div class="timeline-bar-container">
+                        <div class="timeline-segment normal" style="left: 0%; width: 3%;">W</div>
+                        <div class="timeline-segment normal" style="left: 31%; width: 3%;">R</div>
+                    </div>
+                </div>
+                <div class="timeline-row">
+                    <div class="timeline-hero">卡特琳娜</div>
+                    <div class="timeline-bar-container">
+                        <div class="timeline-segment interrupted" style="left: 42%; width: 12%;">死亡莲华(R)</div>
+                    </div>
+                </div>
+                <div class="timeline-row">
+                    <div class="timeline-hero">盲僧</div>
+                    <div class="timeline-bar-container">
+                        <div class="timeline-segment normal" style="left: 46%; width: 3%;">Q</div>
+                        <div class="timeline-segment control" style="left: 54%; width: 5%;">R</div>
+                    </div>
+                </div>
+                <div class="timeline-row">
+                    <div class="timeline-hero">马尔扎哈</div>
+                    <div class="timeline-bar-container">
+                        <div class="timeline-segment control" style="left: 58%; width: 12%;">冥府之握(R)</div>
+                    </div>
+                </div>
+                <div class="timeline-row">
+                    <div class="timeline-hero">奥拉夫</div>
+                    <div class="timeline-bar-container">
+                        <div class="timeline-segment cleanse" style="left: 62%; width: 5%;">诸神黄昏(R)</div>
+                    </div>
+                </div>
+                <div class="timeline-marker">
+                    <span>0s</span><span>2s</span><span>4s</span><span>6s</span><span>8s</span><span>10s</span><span>13s</span>
+                </div>
+            `;
+        }
+
+        // 加载JSON文件
+        async function loadJSONData() {
+            const files = [
+                { name: './showcase_full.json', type: 'showcase' },
+                { name: './teamfight_linked_list.json', type: 'll' },
+                { name: './teamfight_priority_queue.json', type: 'pq' },
+                { name: './teamfight_bst.json', type: 'bst' }
+            ];
+
+            let loadedAny = false;
+
+            for (const file of files) {
+                try {
+                    const resp = await fetch(file.name);
+                    if (resp.ok) {
+                        const data = await resp.json();
+                        console.log('✅ 加载成功: ' + file.name);
+
+                        if (file.type === 'showcase' && data.stats) {
+                            currentData.metrics.total_push = data.stats.metrics?.total_push || currentData.metrics.total_push;
+                            currentData.metrics.total_interrupt = data.stats.metrics?.total_interrupt || currentData.metrics.total_interrupt;
+                            currentData.metrics.total_bullet_acquire = data.stats.metrics?.total_bullet_acquire || currentData.metrics.total_bullet_acquire;
+                            currentData.metrics.total_cleanse = data.stats.metrics?.total_cleanse || currentData.metrics.total_cleanse;
+                            if (data.stats.pool_stats) {
+                                currentData.pool_stats = { ...currentData.pool_stats, ...data.stats.pool_stats };
+                            }
+                            loadedAny = true;
+                        } else if (file.type === 'll' && data.stats) {
+                            currentData.queue_stats.ll_push = data.stats.queue_stats?.avg_push_us || currentData.queue_stats.ll_push;
+                            loadedAny = true;
+                        } else if (file.type === 'pq' && data.stats) {
+                            currentData.queue_stats.pq_push = data.stats.queue_stats?.avg_push_us || currentData.queue_stats.pq_push;
+                            loadedAny = true;
+                        } else if (file.type === 'bst' && data.stats) {
+                            currentData.queue_stats.bst_push = data.stats.queue_stats?.avg_push_us || currentData.queue_stats.bst_push;
+                            loadedAny = true;
+                        }
+                    } else {
+                        console.log('⚠️ 文件不存在: ' + file.name);
+                    }
+                } catch (e) {
+                    console.log('❌ 加载失败: ' + file.name + ' - ' + e.message);
+                }
+            }
+
+            dataLoaded = loadedAny;
+            updateAllVisualizations();
+
+            if (loadedAny) {
+                console.log('📊 使用真实数据显示');
+            } else {
+                console.log('📋 使用示例数据显示（请确保JSON文件在正确位置）');
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            updateAllVisualizations();
+            loadJSONData();
+        });
+    </script>
+</body>
+</html>

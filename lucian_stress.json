@@ -1,0 +1,160 @@
+{
+  "config": {
+    "name": "卢锡安压力测试",
+    "queue_type": "优先队列",
+    "duration": 200000.0
+  },
+  "stats": {
+    "simulation_name": "卢锡安压力测试",
+    "queue_type": "优先队列",
+    "total_events": 3,
+    "simulation_duration": 200000.0,
+    "queue_stats": {
+      "name": "卢锡安压力测试_优先队列",
+      "push_count": 3,
+      "pop_count": 3,
+      "remove_count": 0,
+      "avg_push_us": 3.7666666666666666,
+      "avg_pop_us": 1.8666666666666667,
+      "avg_remove_us": 0.0,
+      "current_depth": 0
+    },
+    "pool_stats": {
+      "name": "卢锡安压力测试_子弹池",
+      "capacity": 60,
+      "active_count": 0,
+      "acquire_count": 102,
+      "release_count": 102,
+      "overwrite_count": 0,
+      "avg_acquire_us": 0.5127450980392156,
+      "naive_allocations": 102,
+      "gc_events_saved": 1,
+      "reuse_ratio": 1.0
+    },
+    "metrics": {
+      "total_push": 3,
+      "total_pop": 3,
+      "total_remove": 0,
+      "total_interrupt": 0,
+      "total_cleanse": 0,
+      "total_bullet_acquire": 102,
+      "max_queue_depth": 1,
+      "avg_queue_depth": 0.00015,
+      "avg_push_us": 3.766666666666667,
+      "avg_remove_us": 0.0
+    }
+  },
+  "timeline": [
+    {
+      "time": 0.0,
+      "event_type": "施放",
+      "champion_id": 1,
+      "champion_name": "卢锡安",
+      "skill_name": "卢锡安_R",
+      "priority": 15,
+      "queue_depth": 1,
+      "extra": {
+        "push_cost_us": 2.8
+      }
+    },
+    {
+      "time": 17.0,
+      "event_type": "开始执行",
+      "champion_id": 1,
+      "champion_name": "卢锡安",
+      "skill_name": "卢锡安_R",
+      "priority": 15,
+      "queue_depth": 0,
+      "extra": {
+        "duration": 3000,
+        "target": null
+      }
+    },
+    {
+      "time": 3017.0,
+      "event_type": "执行结束",
+      "champion_id": 1,
+      "champion_name": "卢锡安",
+      "skill_name": "卢锡安_R",
+      "priority": 15,
+      "queue_depth": 0,
+      "extra": {
+        "completed": true
+      }
+    },
+    {
+      "time": 60000.0,
+      "event_type": "施放",
+      "champion_id": 1,
+      "champion_name": "卢锡安",
+      "skill_name": "卢锡安_R",
+      "priority": 15,
+      "queue_depth": 1,
+      "extra": {
+        "push_cost_us": 4.7
+      }
+    },
+    {
+      "time": 60010.0,
+      "event_type": "开始执行",
+      "champion_id": 1,
+      "champion_name": "卢锡安",
+      "skill_name": "卢锡安_R",
+      "priority": 15,
+      "queue_depth": 0,
+      "extra": {
+        "duration": 3000,
+        "target": null
+      }
+    },
+    {
+      "time": 63010.0,
+      "event_type": "执行结束",
+      "champion_id": 1,
+      "champion_name": "卢锡安",
+      "skill_name": "卢锡安_R",
+      "priority": 15,
+      "queue_depth": 0,
+      "extra": {
+        "completed": true
+      }
+    },
+    {
+      "time": 120000.0,
+      "event_type": "施放",
+      "champion_id": 1,
+      "champion_name": "卢锡安",
+      "skill_name": "卢锡安_R",
+      "priority": 15,
+      "queue_depth": 1,
+      "extra": {
+        "push_cost_us": 3.8
+      }
+    },
+    {
+      "time": 120003.0,
+      "event_type": "开始执行",
+      "champion_id": 1,
+      "champion_name": "卢锡安",
+      "skill_name": "卢锡安_R",
+      "priority": 15,
+      "queue_depth": 0,
+      "extra": {
+        "duration": 3000,
+        "target": null
+      }
+    },
+    {
+      "time": 123003.0,
+      "event_type": "执行结束",
+      "champion_id": 1,
+      "champion_name": "卢锡安",
+      "skill_name": "卢锡安_R",
+      "priority": 15,
+      "queue_depth": 0,
+      "extra": {
+        "completed": true
+      }
+    }
+  ]
+}
