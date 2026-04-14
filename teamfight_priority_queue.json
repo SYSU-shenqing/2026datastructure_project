@@ -1,0 +1,490 @@
+{
+  "config": {
+    "name": "优先队列仿真",
+    "queue_type": "优先队列",
+    "duration": 13000.0
+  },
+  "stats": {
+    "simulation_name": "优先队列仿真",
+    "queue_type": "优先队列",
+    "total_events": 13,
+    "simulation_duration": 13000.0,
+    "queue_stats": {
+      "name": "优先队列仿真_优先队列",
+      "push_count": 13,
+      "pop_count": 13,
+      "avg_push_us": 1.0153846153846153,
+      "avg_pop_us": 0.6230769230769231,
+      "current_depth": 0
+    },
+    "pool_stats": {
+      "name": "环形缓冲区",
+      "capacity": 60,
+      "acquire_count": 36,
+      "release_count": 2,
+      "naive_allocations": 36,
+      "gc_events_saved": 0,
+      "reuse_ratio": 1.0
+    },
+    "metrics": {
+      "total_push": 13,
+      "total_pop": 13,
+      "total_interrupt": 1,
+      "total_cleanse": 1,
+      "total_bullet_acquire": 34,
+      "max_queue_depth": 0,
+      "avg_push_us": 1.0153846153846153
+    }
+  },
+  "timeline": [
+    {
+      "time": 0.0,
+      "event_type": "施放",
+      "champion_id": 2,
+      "champion_name": "艾希",
+      "skill_name": "艾希_W",
+      "priority": 0,
+      "queue_depth": 1,
+      "extra": {
+        "push_cost_us": 3.4
+      }
+    },
+    {
+      "time": 17.0,
+      "event_type": "开始执行",
+      "champion_id": 2,
+      "champion_name": "艾希",
+      "skill_name": "艾希_W",
+      "priority": 0,
+      "queue_depth": 0,
+      "extra": {
+        "duration": 0.0,
+        "target": null
+      }
+    },
+    {
+      "time": 500.0,
+      "event_type": "施放",
+      "champion_id": 2,
+      "champion_name": "艾希",
+      "skill_name": "艾希_Q",
+      "priority": 10,
+      "queue_depth": 1,
+      "extra": {
+        "push_cost_us": 1.7
+      }
+    },
+    {
+      "time": 510.0,
+      "event_type": "开始执行",
+      "champion_id": 2,
+      "champion_name": "艾希",
+      "skill_name": "艾希_Q",
+      "priority": 10,
+      "queue_depth": 0,
+      "extra": {
+        "duration": 4000,
+        "target": null
+      }
+    },
+    {
+      "time": 3000.0,
+      "event_type": "施放",
+      "champion_id": 1,
+      "champion_name": "卢锡安",
+      "skill_name": "卢锡安_E",
+      "priority": 5,
+      "queue_depth": 1,
+      "extra": {
+        "push_cost_us": 2.0
+      }
+    },
+    {
+      "time": 3009.0,
+      "event_type": "开始执行",
+      "champion_id": 1,
+      "champion_name": "卢锡安",
+      "skill_name": "卢锡安_E",
+      "priority": 5,
+      "queue_depth": 0,
+      "extra": {
+        "duration": 0.0,
+        "target": null
+      }
+    },
+    {
+      "time": 3500.0,
+      "event_type": "施放",
+      "champion_id": 1,
+      "champion_name": "卢锡安",
+      "skill_name": "卢锡安_R",
+      "priority": 15,
+      "queue_depth": 1,
+      "extra": {
+        "push_cost_us": 0.8
+      }
+    },
+    {
+      "time": 3502.0,
+      "event_type": "开始执行",
+      "champion_id": 1,
+      "champion_name": "卢锡安",
+      "skill_name": "卢锡安_R",
+      "priority": 15,
+      "queue_depth": 0,
+      "extra": {
+        "duration": 3000,
+        "target": null
+      }
+    },
+    {
+      "time": 4000.0,
+      "event_type": "施放",
+      "champion_id": 2,
+      "champion_name": "艾希",
+      "skill_name": "艾希_R",
+      "priority": 0,
+      "queue_depth": 1,
+      "extra": {
+        "push_cost_us": 0.8
+      }
+    },
+    {
+      "time": 4012.0,
+      "event_type": "开始执行",
+      "champion_id": 2,
+      "champion_name": "艾希",
+      "skill_name": "艾希_R",
+      "priority": 0,
+      "queue_depth": 0,
+      "extra": {
+        "duration": 0.0,
+        "target": 3
+      }
+    },
+    {
+      "time": 4510.0,
+      "event_type": "执行结束",
+      "champion_id": 2,
+      "champion_name": "艾希",
+      "skill_name": "艾希_Q",
+      "priority": 10,
+      "queue_depth": 0,
+      "extra": {
+        "completed": true
+      }
+    },
+    {
+      "time": 4800,
+      "event_type": "命中",
+      "champion_id": 2,
+      "champion_name": "艾希",
+      "skill_name": "艾希_R",
+      "priority": 0,
+      "queue_depth": 0,
+      "extra": {
+        "target": 3,
+        "control": "眩晕"
+      }
+    },
+    {
+      "time": 5000.0,
+      "event_type": "施放",
+      "champion_id": 4,
+      "champion_name": "卡特琳娜",
+      "skill_name": "卡特琳娜_E",
+      "priority": 20,
+      "queue_depth": 1,
+      "extra": {
+        "push_cost_us": 0.7
+      }
+    },
+    {
+      "time": 5015.0,
+      "event_type": "开始执行",
+      "champion_id": 4,
+      "champion_name": "卡特琳娜",
+      "skill_name": "卡特琳娜_E",
+      "priority": 20,
+      "queue_depth": 0,
+      "extra": {
+        "duration": 0.0,
+        "target": null
+      }
+    },
+    {
+      "time": 5300.0,
+      "event_type": "施放",
+      "champion_id": 3,
+      "champion_name": "奥拉夫",
+      "skill_name": "奥拉夫_R",
+      "priority": 100,
+      "queue_depth": 1,
+      "extra": {
+        "push_cost_us": 0.6
+      }
+    },
+    {
+      "time": 5304.0,
+      "event_type": "解控",
+      "champion_id": 3,
+      "champion_name": "奥拉夫",
+      "skill_name": "奥拉夫_R",
+      "priority": 100,
+      "queue_depth": 0,
+      "extra": {
+        "removed_control": "魔法水晶箭"
+      }
+    },
+    {
+      "time": 5304.0,
+      "event_type": "开始执行",
+      "champion_id": 3,
+      "champion_name": "奥拉夫",
+      "skill_name": "奥拉夫_R",
+      "priority": 100,
+      "queue_depth": 0,
+      "extra": {
+        "duration": 6000,
+        "target": null
+      }
+    },
+    {
+      "time": 5500.0,
+      "event_type": "施放",
+      "champion_id": 4,
+      "champion_name": "卡特琳娜",
+      "skill_name": "卡特琳娜_R",
+      "priority": 10,
+      "queue_depth": 1,
+      "extra": {
+        "push_cost_us": 0.7
+      }
+    },
+    {
+      "time": 5508.0,
+      "event_type": "开始执行",
+      "champion_id": 4,
+      "champion_name": "卡特琳娜",
+      "skill_name": "卡特琳娜_R",
+      "priority": 10,
+      "queue_depth": 0,
+      "extra": {
+        "duration": 2500,
+        "target": null
+      }
+    },
+    {
+      "time": 6000.0,
+      "event_type": "施放",
+      "champion_id": 6,
+      "champion_name": "盲僧",
+      "skill_name": "盲僧_Q",
+      "priority": 0,
+      "queue_depth": 1,
+      "extra": {
+        "push_cost_us": 0.6
+      }
+    },
+    {
+      "time": 6001.0,
+      "event_type": "开始执行",
+      "champion_id": 6,
+      "champion_name": "盲僧",
+      "skill_name": "盲僧_Q",
+      "priority": 0,
+      "queue_depth": 0,
+      "extra": {
+        "duration": 0.0,
+        "target": 4
+      }
+    },
+    {
+      "time": 6500.0,
+      "event_type": "施放",
+      "champion_id": 6,
+      "champion_name": "盲僧",
+      "skill_name": "盲僧_Q2",
+      "priority": 20,
+      "queue_depth": 1,
+      "extra": {
+        "push_cost_us": 0.4
+      }
+    },
+    {
+      "time": 6502.0,
+      "event_type": "执行结束",
+      "champion_id": 1,
+      "champion_name": "卢锡安",
+      "skill_name": "卢锡安_R",
+      "priority": 15,
+      "queue_depth": 1,
+      "extra": {
+        "completed": true
+      }
+    },
+    {
+      "time": 6511.0,
+      "event_type": "开始执行",
+      "champion_id": 6,
+      "champion_name": "盲僧",
+      "skill_name": "盲僧_Q2",
+      "priority": 20,
+      "queue_depth": 0,
+      "extra": {
+        "duration": 0.0,
+        "target": null
+      }
+    },
+    {
+      "time": 7000.0,
+      "event_type": "施放",
+      "champion_id": 6,
+      "champion_name": "盲僧",
+      "skill_name": "盲僧_R",
+      "priority": 90,
+      "queue_depth": 1,
+      "extra": {
+        "push_cost_us": 0.4
+      }
+    },
+    {
+      "time": 7004.0,
+      "event_type": "命中",
+      "champion_id": 6,
+      "champion_name": "盲僧",
+      "skill_name": "盲僧_R",
+      "priority": 90,
+      "queue_depth": 0,
+      "extra": {
+        "target": 4,
+        "control": "击飞"
+      }
+    },
+    {
+      "time": 7004.0,
+      "event_type": "打断",
+      "champion_id": 6,
+      "champion_name": "盲僧",
+      "skill_name": "盲僧_R",
+      "priority": 90,
+      "queue_depth": 0,
+      "extra": {
+        "interrupted_target": 4
+      }
+    },
+    {
+      "time": 7004.0,
+      "event_type": "开始执行",
+      "champion_id": 6,
+      "champion_name": "盲僧",
+      "skill_name": "盲僧_R",
+      "priority": 90,
+      "queue_depth": 0,
+      "extra": {
+        "duration": 0.0,
+        "target": 4
+      }
+    },
+    {
+      "time": 7500.0,
+      "event_type": "施放",
+      "champion_id": 5,
+      "champion_name": "马尔扎哈",
+      "skill_name": "马尔扎哈_R",
+      "priority": 90,
+      "queue_depth": 1,
+      "extra": {
+        "push_cost_us": 0.6
+      }
+    },
+    {
+      "time": 7514.0,
+      "event_type": "命中",
+      "champion_id": 5,
+      "champion_name": "马尔扎哈",
+      "skill_name": "马尔扎哈_R",
+      "priority": 90,
+      "queue_depth": 0,
+      "extra": {
+        "target": 6,
+        "control": "压制"
+      }
+    },
+    {
+      "time": 7514.0,
+      "event_type": "开始执行",
+      "champion_id": 5,
+      "champion_name": "马尔扎哈",
+      "skill_name": "马尔扎哈_R",
+      "priority": 90,
+      "queue_depth": 0,
+      "extra": {
+        "duration": 2500,
+        "target": 6
+      }
+    },
+    {
+      "time": 10000.0,
+      "event_type": "施放",
+      "champion_id": 2,
+      "champion_name": "艾希",
+      "skill_name": "艾希_R",
+      "priority": 0,
+      "queue_depth": 1,
+      "extra": {
+        "push_cost_us": 0.5
+      }
+    },
+    {
+      "time": 10013.0,
+      "event_type": "开始执行",
+      "champion_id": 2,
+      "champion_name": "艾希",
+      "skill_name": "艾希_R",
+      "priority": 0,
+      "queue_depth": 0,
+      "extra": {
+        "duration": 0.0,
+        "target": 5
+      }
+    },
+    {
+      "time": 10014.0,
+      "event_type": "执行结束",
+      "champion_id": 5,
+      "champion_name": "马尔扎哈",
+      "skill_name": "马尔扎哈_R",
+      "priority": 90,
+      "queue_depth": 0,
+      "extra": {
+        "completed": true
+      }
+    },
+    {
+      "time": 10800,
+      "event_type": "命中",
+      "champion_id": 2,
+      "champion_name": "艾希",
+      "skill_name": "艾希_R",
+      "priority": 0,
+      "queue_depth": 0,
+      "extra": {
+        "target": 5,
+        "control": "眩晕"
+      }
+    },
+    {
+      "time": 11304.0,
+      "event_type": "执行结束",
+      "champion_id": 3,
+      "champion_name": "奥拉夫",
+      "skill_name": "奥拉夫_R",
+      "priority": 100,
+      "queue_depth": 0,
+      "extra": {
+        "completed": true
+      }
+    }
+  ]
+}

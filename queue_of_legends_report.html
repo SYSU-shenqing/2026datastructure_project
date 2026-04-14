@@ -1,0 +1,742 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Queue of Legends - 仿真报告</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #0d1117 0%, #1a1f2e 100%);
+            color: #e6edf3;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #f39c12, #e74c3c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #8b949e;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(22, 27, 34, 0.9);
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid #30363d;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .stat-card h3 {
+            color: #f39c12;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            border-bottom: 1px solid #30363d;
+            padding-bottom: 10px;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #21262d;
+        }
+
+        .stat-row:last-child {
+            border-bottom: none;
+        }
+
+        .stat-row.highlight {
+            color: #2ecc71;
+            font-weight: bold;
+        }
+
+        .hero-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .hero-stat-card {
+            background: rgba(22, 27, 34, 0.9);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            border: 1px solid #30363d;
+        }
+
+        .hero-stat-card .hero-name {
+            font-size: 1.1em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #58a6ff;
+        }
+
+        .hero-stat-card .stat-row {
+            justify-content: space-around;
+        }
+
+        .gantt-section {
+            background: rgba(22, 27, 34, 0.9);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border: 1px solid #30363d;
+        }
+
+        .gantt-section h2 {
+            color: #f39c12;
+            margin-bottom: 15px;
+        }
+
+        .gantt-container {
+            position: relative;
+            min-height: 300px;
+            margin: 20px 0;
+            padding-left: 100px;
+        }
+
+        .gantt-labels {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 90px;
+        }
+
+        .gantt-label {
+            height: 50px;
+            line-height: 50px;
+            font-weight: bold;
+            color: #58a6ff;
+        }
+
+        .gantt-area {
+            position: relative;
+            height: 300px;
+            background: rgba(13, 17, 23, 0.5);
+            border-radius: 8px;
+            border-left: 2px solid #30363d;
+        }
+
+        .gantt-bar {
+            position: absolute;
+            height: 30px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            color: white;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            padding: 0 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .gantt-bar:hover {
+            transform: scaleY(1.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            z-index: 10;
+        }
+
+        .gantt-timeline {
+            display: flex;
+            margin-top: 10px;
+            padding-left: 100px;
+        }
+
+        .gantt-timeline span {
+            flex: 1;
+            text-align: center;
+            color: #8b949e;
+            font-size: 12px;
+        }
+
+        .priority-pyramid {
+            background: rgba(22, 27, 34, 0.9);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border: 1px solid #30363d;
+        }
+
+        .pyramid-levels {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            margin: 20px 0;
+        }
+
+        .pyramid-level {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            padding: 12px 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .timeline-table-section {
+            background: rgba(22, 27, 34, 0.9);
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid #30363d;
+            overflow-x: auto;
+        }
+
+        .timeline-table-section h2 {
+            color: #f39c12;
+            margin-bottom: 15px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        th {
+            background: #21262d;
+            color: #f39c12;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+
+        td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #30363d;
+        }
+
+        tr:hover {
+            background: rgba(56, 139, 253, 0.1);
+        }
+
+        .priority {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .priority-100 { background: #e74c3c; color: white; }
+        .priority-90 { background: #f39c12; color: white; }
+        .priority-20 { background: #3498db; color: white; }
+        .priority-15 { background: #2ecc71; color: white; }
+        .priority-10 { background: #9b59b6; color: white; }
+        .priority-5 { background: #1abc9c; color: white; }
+        .priority-0 { background: #95a5a6; color: white; }
+
+        .legend {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #8b949e;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎮 Queue of Legends</h1>
+        <div class="subtitle">数据结构性能仿真报告 · 优先队列模式 · 13.0秒团战</div>
+
+        <!-- 统计卡片 -->
+        <div class="stats-grid">
+            
+    <div class="stat-card">
+        <h3>⚡ 性能指标</h3>
+        <div class="stat-row"><span>总施放次数</span><span>13</span></div>
+        <div class="stat-row"><span>总执行次数</span><span>13</span></div>
+        <div class="stat-row"><span>打断次数</span><span>1</span></div>
+        <div class="stat-row"><span>解控次数</span><span>1</span></div>
+        <div class="stat-row"><span>最大队列深度</span><span>1</span></div>
+        <div class="stat-row"><span>平均PUSH耗时</span><span>1.82μs</span></div>
+        <div class="stat-row"><span>平均POP耗时</span><span>0.93μs</span></div>
+    </div>
+    
+            
+    <div class="stat-card">
+        <h3>🔄 环形缓冲区统计</h3>
+        <div class="stat-row"><span>对象池容量</span><span>60</span></div>
+        <div class="stat-row"><span>对象复用次数</span><span>38</span></div>
+        <div class="stat-row"><span>避免的内存分配</span><span>38次</span></div>
+        <div class="stat-row"><span>避免的GC事件</span><span>0次</span></div>
+        <div class="stat-row highlight"><span>复用率</span><span>100.0%</span></div>
+    </div>
+    
+            <div class="stat-card">
+                <h3>📊 队列统计</h3>
+                <div class="stat-row"><span>队列类型</span><span>优先队列</span></div>
+                <div class="stat-row"><span>总事件数</span><span>13</span></div>
+                <div class="stat-row"><span>PUSH次数</span><span>13</span></div>
+                <div class="stat-row"><span>POP次数</span><span>13</span></div>
+                <div class="stat-row"><span>REMOVE次数</span><span>0</span></div>
+            </div>
+        </div>
+
+        <!-- 英雄统计 -->
+        <div class="hero-stats-grid">
+            
+        <div class="hero-stat-card">
+            <div class="hero-name">艾希</div>
+            <div class="stat-row"><span>📥 施放</span><span>4</span></div>
+            <div class="stat-row"><span>💥 打断</span><span>0</span></div>
+            <div class="stat-row"><span>🧹 解控</span><span>0</span></div>
+        </div>
+        
+        <div class="hero-stat-card">
+            <div class="hero-name">卢锡安</div>
+            <div class="stat-row"><span>📥 施放</span><span>2</span></div>
+            <div class="stat-row"><span>💥 打断</span><span>0</span></div>
+            <div class="stat-row"><span>🧹 解控</span><span>0</span></div>
+        </div>
+        
+        <div class="hero-stat-card">
+            <div class="hero-name">卡特琳娜</div>
+            <div class="stat-row"><span>📥 施放</span><span>2</span></div>
+            <div class="stat-row"><span>💥 打断</span><span>0</span></div>
+            <div class="stat-row"><span>🧹 解控</span><span>0</span></div>
+        </div>
+        
+        <div class="hero-stat-card">
+            <div class="hero-name">盲僧</div>
+            <div class="stat-row"><span>📥 施放</span><span>3</span></div>
+            <div class="stat-row"><span>💥 打断</span><span>1</span></div>
+            <div class="stat-row"><span>🧹 解控</span><span>0</span></div>
+        </div>
+        
+        <div class="hero-stat-card">
+            <div class="hero-name">马尔扎哈</div>
+            <div class="stat-row"><span>📥 施放</span><span>1</span></div>
+            <div class="stat-row"><span>💥 打断</span><span>0</span></div>
+            <div class="stat-row"><span>🧹 解控</span><span>0</span></div>
+        </div>
+        
+        <div class="hero-stat-card">
+            <div class="hero-name">奥拉夫</div>
+            <div class="stat-row"><span>📥 施放</span><span>1</span></div>
+            <div class="stat-row"><span>💥 打断</span><span>0</span></div>
+            <div class="stat-row"><span>🧹 解控</span><span>1</span></div>
+        </div>
+        
+        </div>
+
+        <!-- 优先级金字塔 -->
+        <div class="priority-pyramid">
+            <h2>⚡ 技能优先级金字塔</h2>
+            <div class="pyramid-levels">
+                <div class="pyramid-level" style="background: #e74c3c; width: 100%;">100 · 解控 · 奥拉夫 R (诸神黄昏)</div>
+                <div class="pyramid-level" style="background: #f39c12; width: 90%;">90 · 控制 · 马尔扎哈 R / 盲僧 R</div>
+                <div class="pyramid-level" style="background: #3498db; width: 70%;">20 · 瞬发 · 卡特琳娜 E</div>
+                <div class="pyramid-level" style="background: #2ecc71; width: 50%;">15 · 弹道 · 卢锡安 R (圣枪洗礼)</div>
+                <div class="pyramid-level" style="background: #9b59b6; width: 35%;">10 · 引导 · 卡特琳娜 R (死亡莲华)</div>
+                <div class="pyramid-level" style="background: #95a5a6; width: 20%;">0 · 普通 · 艾希 W (万箭齐发)</div>
+            </div>
+        </div>
+
+        <!-- 甘特图 -->
+        <div class="gantt-section">
+            <h2>📅 技能执行时间轴</h2>
+            <div class="legend">
+                <div class="legend-item"><span class="legend-color" style="background: #2ecc71;"></span> 正常完成</div>
+                <div class="legend-item"><span class="legend-color" style="background: #e74c3c;"></span> 被打断</div>
+                <div class="legend-item"><span class="legend-item">💥 关键打断时刻</span></div>
+            </div>
+            <div class="gantt-container">
+                <div class="gantt-labels">
+                    <div class="gantt-label">艾希</div><div class="gantt-label">卢锡安</div><div class="gantt-label">卡特琳娜</div><div class="gantt-label">盲僧</div><div class="gantt-label">马尔扎哈</div><div class="gantt-label">奥拉夫</div>
+                </div>
+                <div class="gantt-area" style="height: 300px;">
+                    
+                <div class="gantt-bar" style="
+                    left: 3.923076923076923%;
+                    width: 30.76923076923077%;
+                    top: 30px;
+                    background: #2ecc71;
+                " title="艾希 - Q (4000ms)">
+                    Q
+                </div>
+                
+                <div class="gantt-bar" style="
+                    left: 26.93846153846154%;
+                    width: 23.076923076923077%;
+                    top: 80px;
+                    background: #2ecc71;
+                " title="卢锡安 - R (3000ms)">
+                    R
+                </div>
+                
+                <div class="gantt-bar" style="
+                    left: 42.36923076923077%;
+                    width: 11.507692307692308%;
+                    top: 130px;
+                    background: #2ecc71;
+                " title="卡特琳娜 - R (1496ms)">
+                    R
+                </div>
+                
+                <div class="gantt-bar" style="
+                    left: 57.8%;
+                    width: 19.230769230769234%;
+                    top: 230px;
+                    background: #2ecc71;
+                " title="马尔扎哈 - R (2500ms)">
+                    R
+                </div>
+                
+                </div>
+            </div>
+            <div class="gantt-timeline">
+                <span>0s</span><span>2s</span><span>4s</span><span>6s</span><span>8s</span><span>10s</span><span>12s</span><span>13s</span>
+            </div>
+            <p style="margin-top: 20px; color: #8b949e;">
+                <strong>🔑 关键时刻：</strong> 
+                4.0s 艾希R命中奥拉夫(眩晕) → 
+                7.0s 盲僧R打断卡特R → 
+                8.0s 奥拉夫R解控(优先级100)
+            </p>
+        </div>
+
+        <!-- 时间轴表格 -->
+        <div class="timeline-table-section">
+            <h2>📋 完整时间轴</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>时间</th>
+                        <th>英雄</th>
+                        <th>事件</th>
+                        <th>技能</th>
+                        <th>优先级</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+        <tr>
+            <td>0ms</td>
+            <td>艾希</td>
+            <td>📥 施放</td>
+            <td>W</td>
+            <td><span class="priority priority-0">0</span></td>
+        </tr>
+        
+        <tr>
+            <td>17ms</td>
+            <td>艾希</td>
+            <td>⚡ 开始执行</td>
+            <td>W</td>
+            <td><span class="priority priority-0">0</span></td>
+        </tr>
+        
+        <tr>
+            <td>500ms</td>
+            <td>艾希</td>
+            <td>📥 施放</td>
+            <td>Q</td>
+            <td><span class="priority priority-10">10</span></td>
+        </tr>
+        
+        <tr>
+            <td>510ms</td>
+            <td>艾希</td>
+            <td>⚡ 开始执行</td>
+            <td>Q</td>
+            <td><span class="priority priority-10">10</span></td>
+        </tr>
+        
+        <tr>
+            <td>3000ms</td>
+            <td>卢锡安</td>
+            <td>📥 施放</td>
+            <td>E</td>
+            <td><span class="priority priority-5">5</span></td>
+        </tr>
+        
+        <tr>
+            <td>3009ms</td>
+            <td>卢锡安</td>
+            <td>⚡ 开始执行</td>
+            <td>E</td>
+            <td><span class="priority priority-5">5</span></td>
+        </tr>
+        
+        <tr>
+            <td>3500ms</td>
+            <td>卢锡安</td>
+            <td>📥 施放</td>
+            <td>R</td>
+            <td><span class="priority priority-15">15</span></td>
+        </tr>
+        
+        <tr>
+            <td>3502ms</td>
+            <td>卢锡安</td>
+            <td>⚡ 开始执行</td>
+            <td>R</td>
+            <td><span class="priority priority-15">15</span></td>
+        </tr>
+        
+        <tr>
+            <td>4000ms</td>
+            <td>艾希</td>
+            <td>📥 施放</td>
+            <td>R</td>
+            <td><span class="priority priority-0">0</span></td>
+        </tr>
+        
+        <tr>
+            <td>4012ms</td>
+            <td>艾希</td>
+            <td>⚡ 开始执行</td>
+            <td>R</td>
+            <td><span class="priority priority-0">0</span></td>
+        </tr>
+        
+        <tr>
+            <td>4510ms</td>
+            <td>艾希</td>
+            <td>✅ 执行结束</td>
+            <td>Q</td>
+            <td><span class="priority priority-10">10</span></td>
+        </tr>
+        
+        <tr>
+            <td>5000ms</td>
+            <td>卡特琳娜</td>
+            <td>📥 施放</td>
+            <td>E</td>
+            <td><span class="priority priority-20">20</span></td>
+        </tr>
+        
+        <tr>
+            <td>5015ms</td>
+            <td>卡特琳娜</td>
+            <td>⚡ 开始执行</td>
+            <td>E</td>
+            <td><span class="priority priority-20">20</span></td>
+        </tr>
+        
+        <tr>
+            <td>5500ms</td>
+            <td>卡特琳娜</td>
+            <td>📥 施放</td>
+            <td>R</td>
+            <td><span class="priority priority-10">10</span></td>
+        </tr>
+        
+        <tr>
+            <td>5508ms</td>
+            <td>卡特琳娜</td>
+            <td>⚡ 开始执行</td>
+            <td>R</td>
+            <td><span class="priority priority-10">10</span></td>
+        </tr>
+        
+        <tr>
+            <td>6000ms</td>
+            <td>盲僧</td>
+            <td>📥 施放</td>
+            <td>Q</td>
+            <td><span class="priority priority-0">0</span></td>
+        </tr>
+        
+        <tr>
+            <td>6001ms</td>
+            <td>盲僧</td>
+            <td>⚡ 开始执行</td>
+            <td>Q</td>
+            <td><span class="priority priority-0">0</span></td>
+        </tr>
+        
+        <tr>
+            <td>6500ms</td>
+            <td>盲僧</td>
+            <td>📥 施放</td>
+            <td>Q2</td>
+            <td><span class="priority priority-20">20</span></td>
+        </tr>
+        
+        <tr>
+            <td>6502ms</td>
+            <td>卢锡安</td>
+            <td>✅ 执行结束</td>
+            <td>R</td>
+            <td><span class="priority priority-15">15</span></td>
+        </tr>
+        
+        <tr>
+            <td>6511ms</td>
+            <td>盲僧</td>
+            <td>⚡ 开始执行</td>
+            <td>Q2</td>
+            <td><span class="priority priority-20">20</span></td>
+        </tr>
+        
+        <tr>
+            <td>7000ms</td>
+            <td>盲僧</td>
+            <td>📥 施放</td>
+            <td>R</td>
+            <td><span class="priority priority-90">90</span></td>
+        </tr>
+        
+        <tr>
+            <td>7004ms</td>
+            <td>盲僧</td>
+            <td>💥 打断</td>
+            <td>R</td>
+            <td><span class="priority priority-90">90</span></td>
+        </tr>
+        
+        <tr>
+            <td>7004ms</td>
+            <td>盲僧</td>
+            <td>⚡ 开始执行</td>
+            <td>R</td>
+            <td><span class="priority priority-90">90</span></td>
+        </tr>
+        
+        <tr>
+            <td>7004ms</td>
+            <td>卡特琳娜</td>
+            <td>✅ 执行结束</td>
+            <td>R</td>
+            <td><span class="priority priority-10">10</span></td>
+        </tr>
+        
+        <tr>
+            <td>7500ms</td>
+            <td>马尔扎哈</td>
+            <td>📥 施放</td>
+            <td>R</td>
+            <td><span class="priority priority-90">90</span></td>
+        </tr>
+        
+        <tr>
+            <td>7514ms</td>
+            <td>马尔扎哈</td>
+            <td>⚡ 开始执行</td>
+            <td>R</td>
+            <td><span class="priority priority-90">90</span></td>
+        </tr>
+        
+        <tr>
+            <td>8000ms</td>
+            <td>奥拉夫</td>
+            <td>📥 施放</td>
+            <td>R</td>
+            <td><span class="priority priority-100">100</span></td>
+        </tr>
+        
+        <tr>
+            <td>8007ms</td>
+            <td>奥拉夫</td>
+            <td>🧹 解控</td>
+            <td>R</td>
+            <td><span class="priority priority-100">100</span></td>
+        </tr>
+        
+        <tr>
+            <td>8007ms</td>
+            <td>奥拉夫</td>
+            <td>⚡ 开始执行</td>
+            <td>R</td>
+            <td><span class="priority priority-100">100</span></td>
+        </tr>
+        
+        <tr>
+            <td>10000ms</td>
+            <td>艾希</td>
+            <td>📥 施放</td>
+            <td>R</td>
+            <td><span class="priority priority-0">0</span></td>
+        </tr>
+        
+        <tr>
+            <td>10013ms</td>
+            <td>艾希</td>
+            <td>⚡ 开始执行</td>
+            <td>R</td>
+            <td><span class="priority priority-0">0</span></td>
+        </tr>
+        
+        <tr>
+            <td>10014ms</td>
+            <td>马尔扎哈</td>
+            <td>✅ 执行结束</td>
+            <td>R</td>
+            <td><span class="priority priority-90">90</span></td>
+        </tr>
+        
+                </tbody>
+            </table>
+        </div>
+
+        <div class="footer">
+            Queue of Legends · 数据结构性能模拟器 · 三结构对比版<br>
+            控制链：引导(10) < 控制(90) < 解控(100)
+        </div>
+    </div>
+</body>
+</html>
+    
