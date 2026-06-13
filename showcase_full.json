@@ -13,8 +13,8 @@
       "name": "完整展示场景_优先队列",
       "push_count": 12,
       "pop_count": 12,
-      "avg_push_us": 1.05,
-      "avg_pop_us": 0.5583333333333333,
+      "avg_push_us": 2.041666666666667,
+      "avg_pop_us": 0.975,
       "current_depth": 0
     },
     "pool_stats": {
@@ -33,7 +33,7 @@
       "total_cleanse": 1,
       "total_bullet_acquire": 34,
       "max_queue_depth": 0,
-      "avg_push_us": 1.05
+      "avg_push_us": 2.041666666666667
     }
   },
   "timeline": [
@@ -46,7 +46,7 @@
       "priority": 0,
       "queue_depth": 1,
       "extra": {
-        "push_cost_us": 3.7
+        "push_cost_us": 6.6
       }
     },
     {
@@ -71,7 +71,7 @@
       "priority": 10,
       "queue_depth": 1,
       "extra": {
-        "push_cost_us": 1.4
+        "push_cost_us": 2.7
       }
     },
     {
@@ -96,7 +96,7 @@
       "priority": 5,
       "queue_depth": 1,
       "extra": {
-        "push_cost_us": 2.0
+        "push_cost_us": 3.8
       }
     },
     {
@@ -121,7 +121,7 @@
       "priority": 15,
       "queue_depth": 1,
       "extra": {
-        "push_cost_us": 0.7
+        "push_cost_us": 1.1
       }
     },
     {
@@ -146,7 +146,7 @@
       "priority": 0,
       "queue_depth": 1,
       "extra": {
-        "push_cost_us": 0.7
+        "push_cost_us": 2.5
       }
     },
     {
@@ -224,7 +224,7 @@
       "priority": 20,
       "queue_depth": 1,
       "extra": {
-        "push_cost_us": 0.9
+        "push_cost_us": 1.3
       }
     },
     {
@@ -249,7 +249,7 @@
       "priority": 100,
       "queue_depth": 1,
       "extra": {
-        "push_cost_us": 0.6
+        "push_cost_us": 0.9
       }
     },
     {
@@ -299,7 +299,7 @@
       "priority": 10,
       "queue_depth": 1,
       "extra": {
-        "push_cost_us": 0.5
+        "push_cost_us": 1.0
       }
     },
     {
@@ -324,7 +324,7 @@
       "priority": 0,
       "queue_depth": 1,
       "extra": {
-        "push_cost_us": 0.5
+        "push_cost_us": 1.2
       }
     },
     {
@@ -349,7 +349,7 @@
       "priority": 20,
       "queue_depth": 1,
       "extra": {
-        "push_cost_us": 0.5
+        "push_cost_us": 1.0
       }
     },
     {
@@ -386,7 +386,7 @@
       "priority": 90,
       "queue_depth": 1,
       "extra": {
-        "push_cost_us": 0.5
+        "push_cost_us": 1.1
       }
     },
     {
@@ -463,7 +463,7 @@
       "priority": 90,
       "queue_depth": 1,
       "extra": {
-        "push_cost_us": 0.6
+        "push_cost_us": 1.3
       }
     },
     {

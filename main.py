@@ -29,32 +29,32 @@ if not hasattr(time, 'perf_counter_ns'):
 
 class SkillType(Enum):
     """技能类型枚举"""
-    INSTANT = "instant"          # 瞬发
-    CHANNEL = "channel"          # 引导
-    PROJECTILE = "projectile"    # 弹道
-    CONTROL = "control"          # 控制/打断
-    CLEANSE = "cleanse"          # 解控
+    INSTANT = "instant"  # 瞬发
+    CHANNEL = "channel"  # 引导
+    PROJECTILE = "projectile"  # 弹道
+    CONTROL = "control"  # 控制/打断
+    CLEANSE = "cleanse"  # 解控
 
 
 class SkillPriority(IntEnum):
     """技能优先级 - 数值越大优先级越高"""
-    NORMAL = 0           # 普通技能
-    MOVEMENT = 5         # 移动指令
-    CHANNEL = 10         # 引导技能（可被打断）
-    PROJECTILE = 15      # 弹道技能（高频）
-    INSTANT = 20         # 瞬发技能
-    CONTROL = 90         # 控制技能（打断引导）
-    CLEANSE = 100        # 解控技能（最高优先级）
+    NORMAL = 0  # 普通技能
+    MOVEMENT = 5  # 移动指令
+    CHANNEL = 10  # 引导技能（可被打断）
+    PROJECTILE = 15  # 弹道技能（高频）
+    INSTANT = 20  # 瞬发技能
+    CONTROL = 90  # 控制技能（打断引导）
+    CLEANSE = 100  # 解控技能（最高优先级）
 
 
 class ChampionID(IntEnum):
     """英雄ID枚举"""
-    LUCIAN = 1      # 卢锡安 - 环形缓冲区代言人
-    ASHE = 2        # 艾希 - 普通队列代言人
-    OLAF = 3        # 奥拉夫 - 优先队列代言人（解控）
-    KATARINA = 4    # 卡特琳娜 - 引导测试（被打断方）
-    MALZAHAR = 5    # 马尔扎哈 - 控制压力（打断方）
-    LEE_SIN = 6     # 盲僧 - 高频操作+控制
+    LUCIAN = 1  # 卢锡安 - 环形缓冲区代言人
+    ASHE = 2  # 艾希 - 普通队列代言人
+    OLAF = 3  # 奥拉夫 - 优先队列代言人（解控）
+    KATARINA = 4  # 卡特琳娜 - 引导测试（被打断方）
+    MALZAHAR = 5  # 马尔扎哈 - 控制压力（打断方）
+    LEE_SIN = 6  # 盲僧 - 高频操作+控制
 
 
 class Team(Enum):
@@ -857,7 +857,7 @@ class SimulationDriver:
 
         if success:
             self._log('🎯', f"【命中】{hero_name} 的 {get_skill_full_name(event.skill_name)} 命中了 {target_name}！")
-            self._log('💫', f"       {target_name} 被{control_name}了！持续{event.control_duration/1000:.1f}秒")
+            self._log('💫', f"       {target_name} 被{control_name}了！持续{event.control_duration / 1000:.1f}秒")
 
             # 记录命中事件
             self.timeline.append(TimelineEvent(
@@ -872,7 +872,8 @@ class SimulationDriver:
                 time=hit_time, event_type="被控制", champion_id=event.target_id,
                 champion_name=target_name, skill_name="",
                 priority=0, queue_depth=len(self.skill_queue),
-                extra={"control_type": control_name, "source": hero_name, "source_skill": get_skill_short_name(event.skill_name)}
+                extra={"control_type": control_name, "source": hero_name,
+                       "source_skill": get_skill_short_name(event.skill_name)}
             ))
 
             if was_channeling:
@@ -929,7 +930,7 @@ class SimulationDriver:
                 extra={"flight_time": flight_time, "target": event.target_id, "hit_time": event.projectile_hit_time}
             ))
 
-            self._log('🏹', f"【射出】{hero_name} 射出 {skill_full_name}，预计 {flight_time/1000:.1f} 秒后命中")
+            self._log('🏹', f"【射出】{hero_name} 射出 {skill_full_name}，预计 {flight_time / 1000:.1f} 秒后命中")
 
     def _process_frame(self) -> None:
         if len(self.skill_queue) == 0:
@@ -956,7 +957,7 @@ class SimulationDriver:
             if had_control:
                 self.metrics.record_cleanse()
                 self._log('🧹', f"【解控】{hero_name} 的 {skill_full_name} 解除了 {cleansed_name} 的控制！")
-                self._log('✨', f"       {hero_name} 现在免疫所有控制效果，持续{event.duration/1000:.0f}秒！")
+                self._log('✨', f"       {hero_name} 现在免疫所有控制效果，持续{event.duration / 1000:.0f}秒！")
                 self.timeline.append(TimelineEvent(
                     time=self.current_time, event_type="解控", champion_id=event.champion_id,
                     champion_name=hero_name, skill_name=event.skill_name,
@@ -982,17 +983,19 @@ class SimulationDriver:
             if event.skill_type == SkillType.CHANNEL:
                 can_start = self.control_manager.start_channel(event.caster_id, event)
                 if can_start:
-                    self._log('⚡', f"【引导】{hero_name} 开始引导 {skill_full_name} - {skill_desc} (持续 {event.duration/1000:.1f}秒)")
+                    self._log('⚡',
+                              f"【引导】{hero_name} 开始引导 {skill_full_name} - {skill_desc} (持续 {event.duration / 1000:.1f}秒)")
                 else:
                     self._log('❌', f"【中断】{hero_name} 的 {skill_full_name} 无法开始（已被控制或打断）")
                     event.was_interrupted = True
             elif event.skill_type == SkillType.PROJECTILE and event.bullet_count > 1:
-                self._log('⚡', f"【施放】{hero_name} 使用 {skill_full_name} - {skill_desc} (共{event.bullet_count}发子弹)")
+                self._log('⚡',
+                          f"【施放】{hero_name} 使用 {skill_full_name} - {skill_desc} (共{event.bullet_count}发子弹)")
                 for i in range(event.bullet_count):
                     self.bullet_pool.acquire(event.champion_id, self.current_time)
                     self.metrics.total_bullet_acquire += 1
                     if i % 10 == 0:
-                        self._log('🔫', f"【子弹】{hero_name} 第{i+1}发子弹")
+                        self._log('🔫', f"【子弹】{hero_name} 第{i + 1}发子弹")
             else:
                 self._log('⚡', f"【施放】{hero_name} 使用 {skill_full_name} - {skill_desc}")
 
@@ -1123,7 +1126,7 @@ class ScenarioGenerator:
 
 
 # ============================================================================
-# 第七部分：三结构对比实验运行器
+# 第七部分：三结构对比实验运行器（修改后）
 # ============================================================================
 
 class ThreeWayComparisonRunner:
@@ -1145,26 +1148,41 @@ class ThreeWayComparisonRunner:
         events = scenario_generator()
         print(f"场景事件数: {len(events)}")
 
+        # ========== 链表模式 ==========
         print("\n[1/3] 运行链表模式...")
         self.ll_driver = SimulationDriver(QueueType.LINKED_LIST, name="链表仿真", verbose=self.verbose)
         self.ll_driver.load_events(events)
         self.ll_driver.run(duration_ms)
         self.ll_stats = self.ll_driver.get_stats()
-        Visualizer(self.ll_driver).export_json("teamfight_linked_list.json")
 
+        # 导出文件并打印摘要
+        ll_viz = Visualizer(self.ll_driver)
+        ll_viz.export_json("teamfight_linked_list.json")
+        ll_viz.print_summary()
+
+        # ========== 优先队列模式 ==========
         print("\n[2/3] 运行优先队列模式...")
         self.pq_driver = SimulationDriver(QueueType.PRIORITY_QUEUE, name="优先队列仿真", verbose=self.verbose)
         self.pq_driver.load_events(events)
         self.pq_driver.run(duration_ms)
         self.pq_stats = self.pq_driver.get_stats()
-        Visualizer(self.pq_driver).export_json("teamfight_priority_queue.json")
 
+        # 导出文件并打印摘要
+        pq_viz = Visualizer(self.pq_driver)
+        pq_viz.export_json("teamfight_priority_queue.json")
+        pq_viz.print_summary()
+
+        # ========== BST模式 ==========
         print("\n[3/3] 运行二叉搜索树模式...")
         self.bst_driver = SimulationDriver(QueueType.BST, name="二叉搜索树仿真", verbose=self.verbose)
         self.bst_driver.load_events(events)
         self.bst_driver.run(duration_ms)
         self.bst_stats = self.bst_driver.get_stats()
-        Visualizer(self.bst_driver).export_json("teamfight_bst.json")
+
+        # 导出文件并打印摘要
+        bst_viz = Visualizer(self.bst_driver)
+        bst_viz.export_json("teamfight_bst.json")
+        bst_viz.print_summary()
 
         return self._generate_comparison_report()
 
@@ -1193,9 +1211,11 @@ class ThreeWayComparisonRunner:
         print("=" * 80)
         print(f"{'指标':<25} {'链表':<15} {'优先队列':<15} {'BST':<15}")
         print("-" * 80)
-        print(f"{'平均施放耗时 (微秒)':<25} {comp['ll_push_us']:<15.3f} {comp['pq_push_us']:<15.3f} {comp['bst_push_us']:<15.3f}")
+        print(
+            f"{'平均施放耗时 (微秒)':<25} {comp['ll_push_us']:<15.3f} {comp['pq_push_us']:<15.3f} {comp['bst_push_us']:<15.3f}")
         print("-" * 80)
-        print(f"{'施放提升倍数 (vs 链表)':<25} {'1.0x (基线)':<15} {comp['pq_push_speedup']:<15.2f}x {comp['bst_push_speedup']:<15.2f}x")
+        print(
+            f"{'施放提升倍数 (vs 链表)':<25} {'1.0x (基线)':<15} {comp['pq_push_speedup']:<15.2f}x {comp['bst_push_speedup']:<15.2f}x")
         print("=" * 80)
         print("\n📊 数据结构选型建议:")
         print("   • 链表：实现简单，适合事件量小、无优先级需求的场景")
@@ -1245,7 +1265,7 @@ class Visualizer:
 
 
 # ============================================================================
-# 第九部分：主程序入口
+# 第九部分：主程序入口（修改后）
 # ============================================================================
 
 def print_banner():
@@ -1301,13 +1321,18 @@ def main():
         print("   使用修正后的展示场景")
         print("=" * 70)
         runner = ThreeWayComparisonRunner(verbose=False)
-        runner.run_comparison(lambda: ScenarioGenerator.generate_showcase_scene(), duration_ms=13000)
+        result = runner.run_comparison(lambda: ScenarioGenerator.generate_showcase_scene(), duration_ms=13000)
         runner.print_comparison_table()
         print("\n✅ 三结构对比实验完成！")
         print("\n📁 生成的文件：")
         print("  ✅ teamfight_linked_list.json")
         print("  ✅ teamfight_priority_queue.json")
         print("  ✅ teamfight_bst.json")
+        print("\n📊 性能数据摘要：")
+        comp = result["comparison"]
+        print(f"  链表 PUSH:     {comp['ll_push_us']:.3f} μs (基线)")
+        print(f"  优先队列 PUSH: {comp['pq_push_us']:.3f} μs ({comp['pq_push_speedup']:.1f}x 提升)")
+        print(f"  BST PUSH:      {comp['bst_push_us']:.3f} μs ({comp['bst_push_speedup']:.1f}x 提升)")
 
     elif choice == "5":
         print("\n" + "=" * 70)
